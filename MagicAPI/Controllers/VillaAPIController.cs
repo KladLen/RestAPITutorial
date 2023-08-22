@@ -2,6 +2,7 @@
 using MagicAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using MagicAPI.Data;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace MagicAPI.Controllers
 {
@@ -84,7 +85,6 @@ namespace MagicAPI.Controllers
 		[HttpPut("{id:int}", Name = "UpdateVilla")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public IActionResult UpdateVilla(int id, [FromBody]VillaDTO villaDTO)
 		{
 			if (villaDTO == null || id != villaDTO.Id)
@@ -97,5 +97,26 @@ namespace MagicAPI.Controllers
 			return Ok();
 		}
 
+		[HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO)
+		{
+			if (patchDTO == null || id == 0)
+			{
+				return BadRequest();
+			}
+			var villa = VillaStore.villaList.FirstOrDefault(x => x.Id == id);
+			if (villa == null)
+			{
+				return BadRequest();
+			}
+			patchDTO.ApplyTo(villa, ModelState);
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			return Ok();
+		}
 	}
 }

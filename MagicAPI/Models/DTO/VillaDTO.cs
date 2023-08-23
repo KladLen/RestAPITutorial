@@ -13,5 +13,7 @@ namespace MagicAPI.Models.DTO
 		[MaxLength(30)]
 		[MinLength(2)]
 		public string City { get; set; }
+		public double Rate { get; set; }
+		public string ImageUrl { get; set; }
 	}
 }

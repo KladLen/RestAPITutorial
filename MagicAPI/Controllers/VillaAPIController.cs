@@ -120,6 +120,7 @@ namespace MagicAPI.Controllers
 
 			Villa modelToUpadate = new Villa()
 			{
+				Id = id,
 				Name = villaDTO.Name,
 				City = villaDTO.City,
 				Rate = villaDTO.Rate,
@@ -156,6 +157,7 @@ namespace MagicAPI.Controllers
 			patchDTO.ApplyTo(villaDTO, ModelState);
 			Villa modelToUpadate = new Villa()
 			{
+				Id = id,
 				Name = villaDTO.Name,
 				City = villaDTO.City,
 				Rate = villaDTO.Rate,
